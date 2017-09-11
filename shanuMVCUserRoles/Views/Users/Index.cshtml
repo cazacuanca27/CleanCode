@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+@if (ViewBag.displayMenu == "AdminUser")
+{
+    <h1>Welcome Admin. Now you can create user Role.</h1>
+    <h3>
+        <li>@Html.ActionLink("Manage Role", "Index", "Role")</li>
+    </h3>
+}
+@if (ViewBag.displayMenu == "EmployeeUser")
+{
+    <h1>Welcome Employee <strong>@ViewBag.Name</strong></h1>
+    <div class="row">
+        <div class="col-md-4">@Html.ActionLink("Holiday Request", "Create", "HolidayViewModels")</div>
+        <div class="col-md-4">@Html.ActionLink("OOH Request", "Create", "OOHRequestViewModels")</div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">@Html.ActionLink("Holiday Requests In Pending", "InPending", "HolidayViewModels")</div>
+        <div class="col-md-4">@Html.ActionLink("OOH Requests In Pending", "InPending", "OOHRequestViewModels")</div>
+        <div class="col-md-4">@Html.ActionLink("Pontaj", "SendMail", "TimeSheetViewModels")</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">@Html.ActionLink("Holiday Requests Approved", "Approved", "HolidayViewModels")</div>
+        <div class="col-md-4">@Html.ActionLink("OOH Requests Approved", "Approved", "OOHRequestViewModels")</div>
+        <div class="col-md-4"></div>
+    </div>
+
+    
+}
+@if (ViewBag.displayMenu == "Team Leader")
+{
+    <h1>Welcome teamleader <strong>@ViewBag.Name</strong></h1>
+    <ul>
+        <li>@Html.ActionLink("Your Holiday Request", "Create", "HolidayViewModels")</li>
+        <li>@Html.ActionLink("Your Holiday Requests In Pending", "InPending", "HolidayViewModels")</li>
+        <li>@Html.ActionLink("Your Holiday Requests Approved", "Approved", "HolidayViewModels")</li>
+        <li>@Html.ActionLink("Your OOH Request", "Create", "OOHRequestViewModels")</li>
+        <li>@Html.ActionLink("Your OOH Requests In Pending", "InPending", "OOHRequestViewModels")</li>
+        <li>@Html.ActionLink("Your OOH Requests Approved", "Approved", "OOHRequestViewModels")</li>
+    </ul>
+    <h2>Management</h2>
+    <ul>
+        <li>@Html.ActionLink("Holiday Requests In Pending from your team", "InPendingTeamLeader", "HolidayViewModels")</li>
+        <li>@Html.ActionLink("Holiday Requests Approved from your team", "ApprovedTeamLeader", "HolidayViewModels")</li>
+        <li>@Html.ActionLink("OOH Requests In Pending from your team", "InPendingTeamLeader", "OOHRequestViewModels")</li>
+        <li>@Html.ActionLink("OOH Requests Approved from your team", "ApprovedTeamLeader", "OOHRequestViewModels")</li>
+    </ul>
+
+}
+@if (ViewBag.displayMenu == "Manager")
+{
+    <h1>Welcome manager <strong>@ViewBag.Name</strong></h1>
+    <ul>
+        <li>@Html.ActionLink("Your Holiday Request", "Create", "HolidayViewModels")</li>
+        <li>@Html.ActionLink("Your Holiday Requests In Pending", "InPending", "HolidayViewModels")</li>
+        <li>@Html.ActionLink("Your Holiday Requests Approved", "Approved", "HolidayViewModels")</li>
+        <li>@Html.ActionLink("Your OOH Request", "Create", "OOHRequestViewModels")</li>
+        <li>@Html.ActionLink("Your OOH Requests In Pending", "InPending", "OOHRequestViewModels")</li>
+        <li>@Html.ActionLink("Your OOH Requests Approved", "Approved", "OOHRequestViewModels")</li>
+    </ul>
+    <h2>Management</h2>
+    
+
+}
+

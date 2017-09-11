@@ -1,0 +1,48 @@
+﻿@model IEnumerable<shanuMVCUserRoles.Models.HolidayViewModel>
+
+@{
+    ViewBag.Title = "ApprovedTeamLeader";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ApprovedTeamLeader</h2>
+
+<div class="table">
+
+
+@foreach (var item in Model)
+{
+    <div class="form-style-8" style="font-family: 'Open Sans Condensed', arial, sans; opacity: 1 ;width: 500px; animation-fill-mode:backwards;   padding: 30px;    background: #F0F0F0 ;    margin: 50px auto;    box-shadow: 0px 0px 15px rgba(64,64,64 , 0.52);    -moz-box-shadow: 0px 0px 15px rgba(64,64,64 , 0.52);    -webkit-box-shadow:  0px 0px 15px rgba(64,64,64 , 0.52);">
+
+        <p>
+            <b>@Html.DisplayNameFor(model => model.FirstName)</b> :
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </p>
+        <p>
+            <b>@Html.DisplayNameFor(model => model.LastName)</b> :
+            @Html.DisplayFor(modelItem => item.LastName)
+        </p>
+        <p>
+            <b>@Html.DisplayNameFor(model => model.StartDate)</b> :
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </p>
+        <p>
+            <b>@Html.DisplayNameFor(model => model.EndDate)</b> :
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </p>
+        <p>
+            <b>@Html.DisplayNameFor(model => model.DaysOff)</b> :
+            @Html.DisplayFor(modelItem => item.DaysOff)
+        </p>
+
+        <div>
+           
+            @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+        </div>
+    </div>
+
+
+}
+
+</div>
