@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -234,6 +237,30 @@
     <Compile Include="Migrations\201709061335175_enableRequiredFirstNameHoliday.Designer.cs">
       <DependentUpon>201709061335175_enableRequiredFirstNameHoliday.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709130842262_holidayType.cs" />
+    <Compile Include="Migrations\201709130842262_holidayType.Designer.cs">
+      <DependentUpon>201709130842262_holidayType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709130852123_holidayTypenorequired.cs" />
+    <Compile Include="Migrations\201709130852123_holidayTypenorequired.Designer.cs">
+      <DependentUpon>201709130852123_holidayTypenorequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709130927335_nochanges.cs" />
+    <Compile Include="Migrations\201709130927335_nochanges.Designer.cs">
+      <DependentUpon>201709130927335_nochanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709130932055_nochanges1.cs" />
+    <Compile Include="Migrations\201709130932055_nochanges1.Designer.cs">
+      <DependentUpon>201709130932055_nochanges1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709130933531_holt.cs" />
+    <Compile Include="Migrations\201709130933531_holt.Designer.cs">
+      <DependentUpon>201709130933531_holt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709130935252_sli.cs" />
+    <Compile Include="Migrations\201709130935252_sli.Designer.cs">
+      <DependentUpon>201709130935252_sli.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\HolidayViewModel.cs" />
@@ -382,6 +409,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709061335175_enableRequiredFirstNameHoliday.resx">
       <DependentUpon>201709061335175_enableRequiredFirstNameHoliday.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709130842262_holidayType.resx">
+      <DependentUpon>201709130842262_holidayType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709130852123_holidayTypenorequired.resx">
+      <DependentUpon>201709130852123_holidayTypenorequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709130927335_nochanges.resx">
+      <DependentUpon>201709130927335_nochanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709130932055_nochanges1.resx">
+      <DependentUpon>201709130932055_nochanges1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709130933531_holt.resx">
+      <DependentUpon>201709130933531_holt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709130935252_sli.resx">
+      <DependentUpon>201709130935252_sli.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

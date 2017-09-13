@@ -47,7 +47,10 @@ namespace shanuMVCUserRoles.Models
         [Required]
         public bool Flag { get; set; }
 
-        
+        [Required]
+        public string HolidayType { get; set; }
+
+        public int SickLeaveIndex { get; set; }
 
     }
 }

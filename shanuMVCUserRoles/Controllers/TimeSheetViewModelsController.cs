@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using shanuMVCUserRoles.Models;
 using System.Collections.Generic;
 using System.Net.Mail;
+using CsvHelper;
 
 namespace shanuMVCUserRoles.Controllers
 {
@@ -99,7 +100,7 @@ namespace shanuMVCUserRoles.Controllers
         {
             var holiday = from b in db.AspNetHolidays
                           join c in db.Users on b.Email equals c.Email
-                          where (c.UserName.Equals(User.Identity.Name) && (b.StartDate.Month.Equals(DateTime.Now.Month) || b.EndDate.Month.Equals(DateTime.Now.Month)))
+                          where (c.UserName.Equals(User.Identity.Name) && (b.StartDate.Month.Equals(DateTime.Now.Month) || b.EndDate.Month.Equals(DateTime.Now.Month)) && b.Flag==true)
                           select b;
             return holiday.ToList();
         }
@@ -109,7 +110,7 @@ namespace shanuMVCUserRoles.Controllers
         {
             var ooh = from b in db.OOHRequestViewModel
                       join c in db.Users on b.Email equals c.Email
-                      where (c.UserName.Equals(User.Identity.Name) && b.Day.Month.Equals(DateTime.Now.Month))
+                      where (c.UserName.Equals(User.Identity.Name) && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag==true)
                       select b;
             return ooh.ToList();
         }
@@ -134,7 +135,6 @@ namespace shanuMVCUserRoles.Controllers
             double bonusHours = 0;
             double hoursWorked = 0;
             double hoursPaid = 0;
-
 
 
            
@@ -220,6 +220,7 @@ namespace shanuMVCUserRoles.Controllers
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential("internalapppontaj@gmail.com", "SCCpontaj2017$");
             SmtpServer.EnableSsl = true;
+
 
             SmtpServer.Send(mail);
             return RedirectToAction("SuccessOOH", "Success");

@@ -39,6 +39,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Flag)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HolidayType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SickLeaveIndex)
+        </th>
+     
         <th></th>
     </tr>
 
@@ -71,6 +78,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.Flag)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HolidayType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SickLeaveIndex)
+        </td>
+       
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }, new { @class = "btn btn-info" }) 
             </td>

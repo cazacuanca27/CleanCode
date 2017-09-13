@@ -45,7 +45,7 @@ namespace shanuMVCUserRoles.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,TeamLeaderName,StartDate,EndDate,DaysOff,TLEmail,Flag")] HolidayViewModel holidayViewModel)
+        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,TeamLeaderName,StartDate,EndDate,DaysOff,TLEmail,HolidayType,SickLeaveIndex,Flag")] HolidayViewModel holidayViewModel)
         {
             
 
@@ -121,7 +121,7 @@ namespace shanuMVCUserRoles.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,TeamLeaderName,StartDate,EndDate,DaysOff,TLEmail,Flag")] HolidayViewModel holidayViewModel)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,TeamLeaderName,StartDate,EndDate,DaysOff,TLEmail,HolidayType,SickLeaveIndex,Flag")] HolidayViewModel holidayViewModel)
         {
             if (ModelState.IsValid)
             {
