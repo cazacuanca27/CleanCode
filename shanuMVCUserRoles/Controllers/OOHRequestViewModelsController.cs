@@ -15,9 +15,81 @@ namespace shanuMVCUserRoles.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: OOHRequestViewModels
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
-            return View(db.OOHRequestViewModel.ToList());
+            ViewBag.FullNameSortParm = String.IsNullOrEmpty(sortOrder) ? "fullName_desc" : "fullName_asc";
+            ViewBag.DaySortParm = sortOrder == "day" ? "day_desc" : "day";
+            ViewBag.HoursSortParm = String.IsNullOrEmpty(sortOrder) ? "hours_desc" : "hours_asc";
+            ViewBag.TickerNUmberSortParm = String.IsNullOrEmpty(sortOrder) ? "ticketNumber_desc" : "ticketNumber_asc";
+            ViewBag.TeamLeaderEmailSortParm = String.IsNullOrEmpty(sortOrder) ? "tlEmail_desc" : "tlEmail_asc";
+            ViewBag.FlagSortParm = String.IsNullOrEmpty(sortOrder) ? "false" : "true";
+            ViewBag.EmailSortParm = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "email_asc";
+
+            var list = from b in db.OOHRequestViewModel
+                       select b;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                list = list.Where(b => b.FullName.Contains(searchString));
+
+            }
+
+
+            switch (sortOrder)
+            {
+                case "fullName_desc":
+                    list = list.OrderByDescending(b => b.FullName);
+                    break;
+                case "fullName_asc":
+                    list = list.OrderBy(b => b.FullName);
+                    break;
+                case "day_desc":
+                    list = list.OrderByDescending(b => b.Day);
+                    break;
+                case "day":
+                    list = list.OrderBy(b => b.Day);
+                    break;
+                case "hours_desc":
+                    list = list.OrderByDescending(b => b.Hours);
+                    break;
+                case "hours_asc":
+                    list = list.OrderBy(b => b.Hours);
+                    break;
+                case "ticketNumber_desc":
+                    list = list.OrderByDescending(b => b.TicketNUmber);
+                    break;
+                case "ticketNumber_asc":
+                    list = list.OrderBy(b => b.TicketNUmber);
+                    break;
+                case "tlEmail_desc":
+                    list = list.OrderByDescending(b => b.TeamLeaderEmail);
+                    break;
+                case "tlEmail_asc":
+                    list = list.OrderBy(b => b.TeamLeaderEmail);
+                    break;
+                case "false":
+                    list = list.OrderByDescending(b => b.Flag);
+                    break;
+                case "true":
+                    list = list.OrderBy(b => b.Flag);
+                    break;
+                case "emai_dec":
+                    list = list.OrderByDescending(b => b.Email);
+                    break;
+                case "email_asc":
+                    list = list.OrderBy(b => b.Email);
+                    break;
+
+
+
+                default:
+                    list = list.OrderBy(b => b.FullName);
+                    break;
+            }
+
+
+
+            return View(list.ToList());
         }
 
         // GET: OOHRequestViewModels/Details/5

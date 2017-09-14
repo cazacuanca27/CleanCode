@@ -240,3 +240,7 @@ C:\Users\myher\Desktop\shanuMVCUserRoles\shanuMVCUserRoles\obj\Debug\shanuMVCUse
 C:\Users\myher\Desktop\shanuMVCUserRoles\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.Migrations.holt.resources
 C:\Users\myher\Desktop\shanuMVCUserRoles\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.Migrations.sli.resources
 C:\Users\myher\Desktop\shanuMVCUserRoles\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.csprojResolveAssemblyReference.cache
+C:\Users\myher\Desktop\shanuMVCUserRoles\shanuMVCUserRoles\bin\PagedList.dll
+C:\Users\myher\Desktop\shanuMVCUserRoles\shanuMVCUserRoles\bin\PagedList.Mvc.dll
+C:\Users\myher\Desktop\shanuMVCUserRoles\shanuMVCUserRoles\bin\PagedList.xml
+C:\Users\myher\Desktop\shanuMVCUserRoles\shanuMVCUserRoles\bin\PagedList.Mvc.xml

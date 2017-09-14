@@ -3,10 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using shanuMVCUserRoles.Models;
-using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
-
 namespace shanuMVCUserRoles.Controllers
 {
     public class HolidayViewModelsController : Controller
@@ -14,9 +11,126 @@ namespace shanuMVCUserRoles.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: HolidayViewModels
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
-            return View(db.AspNetHolidays.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "firstname_desc" : "firstname_asc";
+            ViewBag.EmailSortParm = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "email_asc";
+            ViewBag.TeamLeaderSortParm = String.IsNullOrEmpty(sortOrder) ? "tlname_desc" : "tlname_asc";
+            ViewBag.TeamLeaderEmailsSortParm = String.IsNullOrEmpty(sortOrder) ? "tlemail_desc" : "tlemail_asc";
+            ViewBag.FlagSortParm = String.IsNullOrEmpty(sortOrder) ? "true" : "false";
+            ViewBag.HolidayTypeSortParm = String.IsNullOrEmpty(sortOrder) ? "hol_asc" : "hol_desc";
+            ViewBag.SickLeaveIndexSortParm = String.IsNullOrEmpty(sortOrder) ? "sick_asc" : "sick_desc";
+            ViewBag.DaysOffSortParm = String.IsNullOrEmpty(sortOrder) ? "daysoff_desc" : "daysoff_asc";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.EndDateSortParm = sortOrder == "EndDate" ? "enddate_desc" : "EndDate";
+
+            
+            var holidayRequests = from s in db.AspNetHolidays
+                           select s;
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                holidayRequests = holidayRequests.Where(s => s.LastName.Contains(searchString)
+                                       || s.FirstName.Contains(searchString));
+            }
+
+            
+            switch (sortOrder)
+            {
+                //order by last name
+                case "name_desc":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.LastName);
+                    break;
+
+                    //order by first name
+                case "firstname_desc":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.FirstName);
+                    break;
+                case "firstname_asc":
+                    holidayRequests = holidayRequests.OrderBy(s => s.FirstName);
+                    break;
+
+                //order by email
+                case "email_desc":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.Email);
+                    break;
+                case "email_asc":
+                    holidayRequests = holidayRequests.OrderBy(s => s.Email);
+                    break;
+
+                //order by tl name
+                case "tlname_desc":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.TeamLeaderName);
+                    break;
+                case "tlname_asc":
+                    holidayRequests = holidayRequests.OrderBy(s => s.TeamLeaderName);
+                    break;
+
+                //order by tlemail
+                case "tlemail_desc":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.TLEmail);
+                    break;
+                case "tlemail_asc":
+                    holidayRequests = holidayRequests.OrderBy(s => s.TLEmail);
+                    break;
+
+                //order by holiday
+                case "hol_desc":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.HolidayType);
+                    break;
+                case "hol_asc":
+                    holidayRequests = holidayRequests.OrderBy(s => s.HolidayType);
+                    break;
+
+                //order by sick leave index
+                case "sick_desc":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.HolidayType);
+                    break;
+                case "sick_asc":
+                    holidayRequests = holidayRequests.OrderBy(s => s.HolidayType);
+                    break;
+
+                //order by flag
+                case "true":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.Flag);
+                    break;
+                case "false":
+                    holidayRequests = holidayRequests.OrderBy(s => s.Flag);
+                    break;
+
+                //order by start date
+                case "Date":
+                    holidayRequests = holidayRequests.OrderBy(s => s.StartDate);
+                    break;
+                case "date_desc":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.StartDate);
+                    break;
+
+                //order by end date
+                case "EndDate":
+                    holidayRequests = holidayRequests.OrderBy(s => s.StartDate);
+                    break;
+                case "enddate_desc":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.StartDate);
+                    break;
+
+                //order by end date
+                case "daysoff_asc":
+                    holidayRequests = holidayRequests.OrderBy(s => s.DaysOff);
+                    break;
+                case "daysoff_desc":
+                    holidayRequests = holidayRequests.OrderByDescending(s => s.DaysOff);
+                    break;
+
+                default:
+                    holidayRequests = holidayRequests.OrderBy(s => s.LastName);
+                    break;
+            }
+
+            return View(holidayRequests.ToList());
         }
 
         // GET: HolidayViewModels/Details/5

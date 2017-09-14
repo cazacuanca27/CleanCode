@@ -10,65 +10,73 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm())
+{<p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FullName)
+            @Html.ActionLink("Full Name", "Index", new { sortOrder = ViewBag.FullNameSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Day)
+            @Html.ActionLink("Day", "Index", new { sortOrder = ViewBag.DaySortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Hours)
+            @Html.ActionLink("Hours", "Index", new { sortOrder = ViewBag.HoursSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TicketNUmber)
+            @Html.ActionLink("Ticket Number", "Index", new { sortOrder = ViewBag.TicketNUmberSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TeamLeaderEmail)
+            @Html.ActionLink("Team Leader Email", "Index", new { sortOrder = ViewBag.TeamLeaderEmailSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Flag)
+            @Html.ActionLink("Flag", "Index", new { sortOrder = ViewBag.FlagSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.EmailSortParm })
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Day)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Hours)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketNUmber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TeamLeaderEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Flag)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
-        </td>
-        <td>
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Day)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketNUmber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeamLeaderEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
 
 </table>

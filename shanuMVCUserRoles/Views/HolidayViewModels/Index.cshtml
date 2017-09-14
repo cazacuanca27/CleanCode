@@ -10,40 +10,48 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.NameSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.ActionLink("Email", "Index", new { sortOrder = ViewBag.EmailSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TeamLeaderName)
+            @Html.ActionLink("Team Leader Name", "Index", new { sortOrder = ViewBag.TeamLeaderSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StartDate)
+            @Html.ActionLink("Start Date", "Index", new { sortOrder = ViewBag.DateSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EndDate)
+            @Html.ActionLink("End Date", "Index", new { sortOrder = ViewBag.EndDateSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DaysOff)
+            @Html.ActionLink("Days Off", "Index", new { sortOrder = ViewBag.DaysOffSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TLEmail)
+            @Html.ActionLink("TLEmail", "Index", new { sortOrder = ViewBag.TeamLeaderEmailsSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Flag)
+            @Html.ActionLink("Flag", "Index", new { sortOrder = ViewBag.FlagSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HolidayType)
+            @Html.ActionLink("HolidayType", "Index", new { sortOrder = ViewBag.HolidayTypeSortParm })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SickLeaveIndex)
+            @Html.ActionLink("SickLeaveIndex", "Index", new { sortOrder = ViewBag.SickLeaveIndexSortParm })
         </th>
      
         <th></th>
