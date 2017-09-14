@@ -19,7 +19,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.FirstName,  new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -83,7 +83,7 @@
         <div class="form-group">
            @Html.LabelFor(model => model.HolidayType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.HolidayType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("HolidayType", new SelectList(new [] { "Concediu de odihna", "Concediu fara plata", "Concediu medical","Deces in familie","Delegatie","Donare sange","Casatorie" }))
                 @Html.ValidationMessageFor(model => model.HolidayType, "", new { @class = "text-danger" })
             </div>
         </div>

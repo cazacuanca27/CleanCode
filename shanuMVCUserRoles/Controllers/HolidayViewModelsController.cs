@@ -161,7 +161,7 @@ namespace shanuMVCUserRoles.Controllers
         
         public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,TeamLeaderName,StartDate,EndDate,DaysOff,TLEmail,HolidayType,SickLeaveIndex,Flag")] HolidayViewModel holidayViewModel)
         {
-            
+
 
             if (ModelState.IsValid)
             {

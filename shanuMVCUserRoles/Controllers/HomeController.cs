@@ -52,6 +52,26 @@ namespace shanuMVCUserRoles.Controllers
             return false;
         }
 
+        public Boolean isManagerUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                ApplicationDbContext context = new ApplicationDbContext();
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Manager")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
         public ActionResult TeamLeaderStatistics()
         {
             var teamLeaderEmployees = Enumerable.Empty<ProfileViewModel>().AsQueryable();
@@ -121,5 +141,127 @@ namespace shanuMVCUserRoles.Controllers
             return View(teamLeaderEmployees.ToList());
 
         }
+
+        public ActionResult ManagerStatistics()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (isManagerUser() == true)
+                {
+                    
+                }
+            }
+            return View();
+        }     
+
+      
+
+        public ActionResult Applicationsupport()
+        {
+            var applicationSupportEmployees = Enumerable.Empty<ProfileViewModel>().AsQueryable();
+            
+            int holidayRequestsInPending = 0;
+            int holidayRequestsApproved = 0;
+            int holidayRequests = 0;
+
+            int oohRequestsInPending = 0;
+            int oohRequestsApproved = 0;
+            int oohRequests = 0;
+
+            applicationSupportEmployees = from b in db.ProfileViewModel
+                                          where b.Team.Equals("Application Support")
+                                          select b;
+
+
+            holidayRequestsInPending = (from b in db.AspNetHolidays
+                                        join c in db.ProfileViewModel on b.Email equals c.Email
+                                        where (c.Team.Equals("Application Support") && b.StartDate.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(false))
+                                        select b).Count();
+            holidayRequestsApproved = (from b in db.AspNetHolidays
+                                        join c in db.ProfileViewModel on b.Email equals c.Email
+                                        where (c.Team.Equals("Application Support") && b.StartDate.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(true))
+                                        select b).Count();
+            holidayRequests = (from b in db.AspNetHolidays
+                                        join c in db.ProfileViewModel on b.Email equals c.Email
+                                        where (c.Team.Equals("Application Support") && b.StartDate.Month.Equals(DateTime.Now.Month))
+                                        select b).Count();
+            ViewBag.holidayRequestsInPending = holidayRequestsInPending;
+            ViewBag.holidayRequestsApproved = holidayRequestsApproved;
+            ViewBag.holidayRequests = holidayRequests;
+
+            oohRequestsInPending = (from b in db.OOHRequestViewModel
+                                    join c in db.ProfileViewModel on b.Email equals c.Email
+                                        where (c.Team.Equals("Application Support") && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(false))
+                                        select b).Count();
+            oohRequestsApproved = (from b in db.OOHRequestViewModel
+                                   join c in db.ProfileViewModel on b.Email equals c.Email
+                                       where (c.Team.Equals("Application Support") && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(true))
+                                       select b).Count();
+            oohRequests = (from b in db.OOHRequestViewModel
+                                   join c in db.ProfileViewModel on b.Email equals c.Email
+                                   where (c.Team.Equals("Application Support") && b.Day.Month.Equals(DateTime.Now.Month))
+                                   select b).Count();
+            ViewBag.oohRequestsInPending = oohRequestsInPending;
+            ViewBag.oohRequestsApproved = oohRequestsApproved;
+            ViewBag.oohRequests = oohRequests;
+
+
+            return View(applicationSupportEmployees.ToList());
+        }
+
+        public ActionResult SoftwareDevelopment()
+        {
+            var softwareDevelopmentEmployees = Enumerable.Empty<ProfileViewModel>().AsQueryable();
+
+            int holidayRequestsInPending = 0;
+            int holidayRequestsApproved = 0;
+            int holidayRequests = 0;
+
+            int oohRequestsInPending = 0;
+            int oohRequestsApproved = 0;
+            int oohRequests = 0;
+
+            softwareDevelopmentEmployees = from b in db.ProfileViewModel
+                                          where b.Team.Equals("Software Development")
+                                          select b;
+
+
+            holidayRequestsInPending = (from b in db.AspNetHolidays
+                                        join c in db.ProfileViewModel on b.Email equals c.Email
+                                        where (c.Team.Equals("Software Development") && b.StartDate.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(false))
+                                        select b).Count();
+            holidayRequestsApproved = (from b in db.AspNetHolidays
+                                       join c in db.ProfileViewModel on b.Email equals c.Email
+                                       where (c.Team.Equals("Software Development") && b.StartDate.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(true))
+                                       select b).Count();
+            holidayRequests = (from b in db.AspNetHolidays
+                               join c in db.ProfileViewModel on b.Email equals c.Email
+                               where (c.Team.Equals("Software Development") && b.StartDate.Month.Equals(DateTime.Now.Month))
+                               select b).Count();
+            ViewBag.holidayRequestsInPending = holidayRequestsInPending;
+            ViewBag.holidayRequestsApproved = holidayRequestsApproved;
+            ViewBag.holidayRequests = holidayRequests;
+
+            oohRequestsInPending = (from b in db.OOHRequestViewModel
+                                    join c in db.ProfileViewModel on b.Email equals c.Email
+                                    where (c.Team.Equals("Software Development") && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(false))
+                                    select b).Count();
+            oohRequestsApproved = (from b in db.OOHRequestViewModel
+                                   join c in db.ProfileViewModel on b.Email equals c.Email
+                                   where (c.Team.Equals("Software Development") && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(true))
+                                   select b).Count();
+            oohRequests = (from b in db.OOHRequestViewModel
+                           join c in db.ProfileViewModel on b.Email equals c.Email
+                           where (c.Team.Equals("Software Development") && b.Day.Month.Equals(DateTime.Now.Month))
+                           select b).Count();
+            ViewBag.oohRequestsInPending = oohRequestsInPending;
+            ViewBag.oohRequestsApproved = oohRequestsApproved;
+            ViewBag.oohRequests = oohRequests;
+
+
+            return View(softwareDevelopmentEmployees.ToList());
+        }
+
+
     }
 }

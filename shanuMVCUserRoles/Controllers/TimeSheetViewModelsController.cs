@@ -100,12 +100,44 @@ namespace shanuMVCUserRoles.Controllers
         {
             var holiday = from b in db.AspNetHolidays
                           join c in db.Users on b.Email equals c.Email
-                          where (c.UserName.Equals(User.Identity.Name) && (b.StartDate.Month.Equals(DateTime.Now.Month) || b.EndDate.Month.Equals(DateTime.Now.Month)) && b.Flag==true)
+                          where (c.UserName.Equals(User.Identity.Name) && (b.StartDate.Month.Equals(DateTime.Now.Month) || b.EndDate.Month.Equals(DateTime.Now.Month)) 
+                          && b.Flag==true && b.HolidayType!="Concediu medical" && b.HolidayType!="Concediu fara plata")
                           select b;
             return holiday.ToList();
         }
-
-
+        public List<HolidayViewModel> FullMedicalHoliday()
+        {
+            var holiday = from b in db.AspNetHolidays
+                          join c in db.Users on b.Email equals c.Email
+                          where (c.UserName.Equals(User.Identity.Name) && (b.StartDate.Month.Equals(DateTime.Now.Month) || b.EndDate.Month.Equals(DateTime.Now.Month))
+                          && b.Flag == true && b.HolidayType=="Concediu medical" && 
+                          (b.SickLeaveIndex==2|| b.SickLeaveIndex == 3
+                          || b.SickLeaveIndex == 4 || b.SickLeaveIndex == 5
+                          || b.SickLeaveIndex == 6 || b.SickLeaveIndex == 12
+                          || b.SickLeaveIndex == 14))
+                          select b;
+            return holiday.ToList();
+        }
+        public List<HolidayViewModel> PartialMedicalHoliday()
+        {
+            var holiday = from b in db.AspNetHolidays
+                          join c in db.Users on b.Email equals c.Email
+                          where (c.UserName.Equals(User.Identity.Name) && (b.StartDate.Month.Equals(DateTime.Now.Month) || b.EndDate.Month.Equals(DateTime.Now.Month))
+                          && b.Flag == true && b.HolidayType == "Concediu medical" &&
+                          (b.SickLeaveIndex == 1 || b.SickLeaveIndex == 7
+                          || b.SickLeaveIndex == 13 || b.SickLeaveIndex == 15))
+                          select b;
+            return holiday.ToList();
+        }
+        public List<HolidayViewModel> NotPaidHoliday()
+        {
+            var holiday = from b in db.AspNetHolidays
+                          join c in db.Users on b.Email equals c.Email
+                          where (c.UserName.Equals(User.Identity.Name) && (b.StartDate.Month.Equals(DateTime.Now.Month) || b.EndDate.Month.Equals(DateTime.Now.Month))
+                          && b.Flag == true && b.HolidayType == "Concediu fara plata")
+                          select b;
+            return holiday.ToList();
+        }
         public List<OOHRequestViewModel> Ooh()
         {
             var ooh = from b in db.OOHRequestViewModel
@@ -115,13 +147,112 @@ namespace shanuMVCUserRoles.Controllers
             return ooh.ToList();
         }
 
-        public string Pontaj()
+
+        public string PontajV2()
         {
             bool holiday = Holiday().Count > 0;
+            bool fullMedicalHoliday = FullMedicalHoliday().Count > 0;
+            bool partialMedicalHoliday = PartialMedicalHoliday().Count > 0;
+            bool notPaidHoliday = NotPaidHoliday().Count > 0;
             bool ooh = Ooh().Count > 0;
 
             int daysInMonth = System.DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
-            double transport = 80.0;            
+            int businessDaysInMonth = 0;
+            for (var date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1); date < new DateTime(DateTime.Now.Year, DateTime.Now.Month, daysInMonth); date = date.AddDays(1))
+            {
+                if (date.DayOfWeek != DayOfWeek.Saturday
+                    && date.DayOfWeek != DayOfWeek.Sunday)
+                    businessDaysInMonth++;
+            }
+
+            int workingHoursThisMonth = 0;
+            int hoursWorked = 0;
+            double hoursPaid = 0;
+            double transport = 80.0;
+            int mealTickets = 0;
+
+            int daysOffHoliday = 0;
+            int daysOffFullMedical = 0;
+            int daysOffPartialMedical = 0;
+            int daysOffNotPaid = 0;
+
+            double bonusHours = 0;
+
+            if (holiday == true)
+            {
+                foreach (var hol in Holiday())
+                {
+                    for (var date = hol.StartDate; date <= hol.EndDate; date = date.AddDays(1))
+                    {
+                        if (date.DayOfWeek != DayOfWeek.Saturday
+                            && date.DayOfWeek != DayOfWeek.Sunday)
+                            daysOffHoliday++;
+                    }
+                }
+            }
+            if (fullMedicalHoliday == true)
+            {
+                foreach (var hol in FullMedicalHoliday())
+                {
+                    for (var date = hol.StartDate; date <= hol.EndDate; date = date.AddDays(1))
+                    {
+                        if (date.DayOfWeek != DayOfWeek.Saturday
+                            && date.DayOfWeek != DayOfWeek.Sunday)
+                            daysOffFullMedical++;
+                    }
+                }
+            }
+            if (partialMedicalHoliday == true)
+            {
+                foreach (var hol in PartialMedicalHoliday())
+                {
+                    for (var date = hol.StartDate; date <= hol.EndDate; date = date.AddDays(1))
+                    {
+                        if (date.DayOfWeek != DayOfWeek.Saturday
+                            && date.DayOfWeek != DayOfWeek.Sunday)
+                            daysOffPartialMedical++;
+                    }
+                }
+            }
+            if (notPaidHoliday == true)
+            {
+                foreach (var hol in NotPaidHoliday())
+                {
+                    for (var date = hol.StartDate; date <= hol.EndDate; date = date.AddDays(1))
+                    {
+                        if (date.DayOfWeek != DayOfWeek.Saturday
+                            && date.DayOfWeek != DayOfWeek.Sunday)
+                            daysOffNotPaid++;
+                    }
+                }
+            }
+            if (ooh == true)
+            {
+                foreach (var objectooh in Ooh())
+                {
+                    bonusHours += (objectooh.Hours * 2);
+                }
+            }
+
+            workingHoursThisMonth = businessDaysInMonth * 8;
+            hoursWorked = (businessDaysInMonth - daysOffHoliday - daysOffFullMedical - daysOffPartialMedical - daysOffNotPaid) * 8 + Convert.ToInt32(bonusHours);
+            hoursPaid = (hoursWorked - Convert.ToInt32(bonusHours)) + daysOffHoliday * 8 + daysOffFullMedical * 8 + daysOffPartialMedical * 0.75 * 8 + bonusHours * 2;
+            transport = (float)((float)(businessDaysInMonth - daysOffHoliday - daysOffFullMedical - daysOffPartialMedical - daysOffNotPaid) / (float)businessDaysInMonth) * (float)transport;
+            mealTickets = (businessDaysInMonth - daysOffHoliday - daysOffFullMedical - daysOffPartialMedical - daysOffNotPaid);
+
+
+            return "Ore lucratoare in luna: " + workingHoursThisMonth + " Ore lucrate in luna: " + hoursWorked
+                + " Ore platite in luna: " + hoursPaid + " Decont transport: " + transport + " Tichete de masa: " + mealTickets;
+        }
+
+
+
+        public string Pontaj()
+        {
+            bool holiday = Holiday().Count > 0;            
+            bool ooh = Ooh().Count > 0;
+
+            int daysInMonth = System.DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);                       
             var businessDaysInMonth = 0;     
             for (var date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1); date < new DateTime(DateTime.Now.Year, DateTime.Now.Month, daysInMonth); date = date.AddDays(1))
             {
@@ -135,9 +266,9 @@ namespace shanuMVCUserRoles.Controllers
             double bonusHours = 0;
             double hoursWorked = 0;
             double hoursPaid = 0;
+            double transport = 80.0;
 
 
-           
             //if the employee had days off and extra hours worked
             if (holiday && ooh == true)
             {
@@ -215,7 +346,7 @@ namespace shanuMVCUserRoles.Controllers
             mail.From = new MailAddress("internalapppontaj@gmail.com");
             mail.To.Add("myheroalinabrinza95@gmail.com");
             mail.Subject = "Test Mail";
-            mail.Body = Pontaj();
+            mail.Body = PontajV2();
 
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential("internalapppontaj@gmail.com", "SCCpontaj2017$");

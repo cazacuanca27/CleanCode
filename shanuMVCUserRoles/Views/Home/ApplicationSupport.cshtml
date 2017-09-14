@@ -1,0 +1,61 @@
+﻿@model IEnumerable<shanuMVCUserRoles.Models.ProfileViewModel>
+
+@{
+    ViewBag.Title = "ApplicationSupport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Application Support Dashboard</h2>
+<div style="height:50px;"></div>
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"><button type="button" class="btn btn-warning" onclick="">Holiday requests in pending this month: @ViewBag.holidayRequestsInPending</button></div>
+    <div class="col-sm-3"><button type="button" class="btn btn-warning">OOH requests in pending this month:     @ViewBag.oohRequestsInPending</button></div>
+    <div class="col-sm-3"></div>
+</div>
+<div style="height:10px;"></div>
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"><button type="button" class="btn btn-success">Holiday requests approved this month: @ViewBag.holidayRequestsApproved</button></div>
+    <div class="col-sm-3"><button type="button" class="btn btn-success">OOH requests approved this month:     @ViewBag.oohRequestsApproved</button></div>
+    <div class="col-sm-3"></div>
+</div>
+<div style="height:10px;"></div>
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"><button type="button" class="btn btn-primary">Total holiday requests: @ViewBag.holidayRequests</button></div>
+    <div class="col-sm-3"><button type="button" class="btn btn-primary">Total OOH requests:     @ViewBag.oohRequests</button></div>
+    <div class="col-sm-3"></div>
+</div>
+<div style="height:20px;"></div>
+<h3>Application Support team:</h3>
+<table class="table table-striped">
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CNP)
+            </td>
+
+
+        </tr>
+    }
+
+</table>

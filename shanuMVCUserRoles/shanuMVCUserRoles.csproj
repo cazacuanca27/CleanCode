@@ -369,6 +369,9 @@
     <Content Include="Views\OOHRequestViewModels\InPendingTeamLeader.cshtml" />
     <Content Include="Views\OOHRequestViewModels\ApprovedTeamLeader.cshtml" />
     <Content Include="Views\Home\TeamLeaderStatistics.cshtml" />
+    <Content Include="Views\Home\ManagerStatistics.cshtml" />
+    <Content Include="Views\Home\ApplicationSupport.cshtml" />
+    <Content Include="Views\Home\SoftwareDevelopment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

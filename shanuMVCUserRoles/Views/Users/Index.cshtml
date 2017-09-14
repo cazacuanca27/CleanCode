@@ -53,10 +53,12 @@
     </div>
     <h2>Team Leader Management</h2>
     <ul>
+        <li>@Html.ActionLink("Dashboard", "TeamLeaderStatistics", "Home")</li>
         <li>@Html.ActionLink("Holiday Requests In Pending from your team", "InPendingTeamLeader", "HolidayViewModels")</li>
         <li>@Html.ActionLink("Holiday Requests Approved from your team", "ApprovedTeamLeader", "HolidayViewModels")</li>
         <li>@Html.ActionLink("OOH Requests In Pending from your team", "InPendingTeamLeader", "OOHRequestViewModels")</li>
         <li>@Html.ActionLink("OOH Requests Approved from your team", "ApprovedTeamLeader", "OOHRequestViewModels")</li>
+        
     </ul>
 
 }
@@ -79,7 +81,11 @@
         <div class="col-md-4"></div>
     </div>
     <h2>Manager Management</h2>
-    
+    <div class="row">
+        <div class="col-md-4">@Html.ActionLink("Application Support Dashboard", "ApplicationSupport", "Home")</div>
+        <div class="col-md-4">@Html.ActionLink("Software Development", "SoftwareDevelopment", "Home")</div>
+        <div class="col-md-4"></div>
+    </div>
 
 }
 
