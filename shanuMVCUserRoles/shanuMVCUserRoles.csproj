@@ -378,6 +378,7 @@
     <Content Include="Views\Home\Middleware.cshtml" />
     <Content Include="Views\Home\UNIX.cshtml" />
     <Content Include="Views\Success\SuccessPontaj.cshtml" />
+    <Content Include="Views\Manage\EditProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

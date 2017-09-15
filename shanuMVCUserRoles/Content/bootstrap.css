@@ -2338,6 +2338,9 @@ fieldset[disabled] .btn-link:focus {
   line-height: 1.33;
   border-radius: 6px;
 }
+.btn-default > btn-lg:focus{
+    color: red;
+}
 
 .btn-sm,
 .btn-xs {
