@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Approved</h2>
+<h2 style="padding-left: 340px;">Your approved holiday requests</h2>
 
 
 <div class="table">
@@ -30,6 +30,10 @@
             <p>
                 <b>@Html.DisplayNameFor(model => model.DaysOff)</b> :
                 @Html.DisplayFor(modelItem => item.DaysOff)
+            </p>
+            <p>
+                <b>@Html.DisplayNameFor(model => model.HolidayType)</b> :
+                @Html.DisplayFor(modelItem => item.HolidayType)
             </p>
             <p>
                 <b>Team Leader Email</b> :

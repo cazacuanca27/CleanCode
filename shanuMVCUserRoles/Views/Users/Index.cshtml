@@ -16,7 +16,7 @@
 {
     <h1>Welcome Employee <strong>@ViewBag.Name</strong></h1>
     <div class="row">
-        <div class="col-md-4">@Html.ActionLink("Holiday Request", "Create", "HolidayViewModels")</div>
+        <div class="col-md-4">@Html.ActionLink("Holiday Request", "Create", "HolidayViewModels", new { @class = "btn btn-default" })</div>
         <div class="col-md-4">@Html.ActionLink("OOH Request", "Create", "OOHRequestViewModels")</div>
         <div class="col-md-4"></div>
     </div>
@@ -36,30 +36,43 @@
 @if (ViewBag.displayMenu == "Team Leader")
 {
     <h1>Welcome teamleader <strong>@ViewBag.Name</strong></h1>
+
+    <div style="height:20px;"></div>
     <div class="row">
-        <div class="col-md-4">@Html.ActionLink("Holiday Request", "Create", "HolidayViewModels")</div>
-        <div class="col-md-4">@Html.ActionLink("OOH Request", "Create", "OOHRequestViewModels")</div>
+        <div class="col-md-4">@Html.ActionLink("Holiday Request", "Create", "HolidayViewModels",null, new { @class = "btn btn-default btn-lg" })</div>
+        <div class="col-md-4">@Html.ActionLink("OOH Request", "Create", "OOHRequestViewModels",null, new { @class = "btn btn-default btn-lg" })</div>
         <div class="col-md-4"></div>
     </div>
+    <div style="height:20px;"></div>
     <div class="row">
-        <div class="col-md-4">@Html.ActionLink("Holiday Requests In Pending", "InPending", "HolidayViewModels")</div>
-        <div class="col-md-4">@Html.ActionLink("OOH Requests In Pending", "InPending", "OOHRequestViewModels")</div>
-        <div class="col-md-4">@Html.ActionLink("Pontaj", "SendMail", "TimeSheetViewModels")</div>
+        <div class="col-md-4">@Html.ActionLink("Holiday Requests In Pending", "InPending", "HolidayViewModels",null, new { @class = "btn btn-default btn-lg" })</div>
+        <div class="col-md-4">@Html.ActionLink("OOH Requests In Pending", "InPending", "OOHRequestViewModels",null, new { @class = "btn btn-default btn-lg" })</div>
+        <div class="col-md-4">@Html.ActionLink("Pontaj", "SendMail", "TimeSheetViewModels",null, new { @class = "btn btn-default btn-lg" })</div>
     </div>
+    <div style="height:20px;"></div>
     <div class="row">
-        <div class="col-md-4">@Html.ActionLink("Holiday Requests Approved", "Approved", "HolidayViewModels")</div>
-        <div class="col-md-4">@Html.ActionLink("OOH Requests Approved", "Approved", "OOHRequestViewModels")</div>
+        <div class="col-md-4">@Html.ActionLink("Holiday Requests Approved", "Approved", "HolidayViewModels", null, new { @class = "btn btn-default btn-lg" })</div>
+        <div class="col-md-4">@Html.ActionLink("OOH Requests Approved", "Approved", "OOHRequestViewModels", null, new { @class = "btn btn-default btn-lg" })</div>
         <div class="col-md-4"></div>
     </div>
     <h2>Team Leader Management</h2>
-    <ul>
-        <li>@Html.ActionLink("Dashboard", "TeamLeaderStatistics", "Home")</li>
-        <li>@Html.ActionLink("Holiday Requests In Pending from your team", "InPendingTeamLeader", "HolidayViewModels")</li>
-        <li>@Html.ActionLink("Holiday Requests Approved from your team", "ApprovedTeamLeader", "HolidayViewModels")</li>
-        <li>@Html.ActionLink("OOH Requests In Pending from your team", "InPendingTeamLeader", "OOHRequestViewModels")</li>
-        <li>@Html.ActionLink("OOH Requests Approved from your team", "ApprovedTeamLeader", "OOHRequestViewModels")</li>
-        
-    </ul>
+    <div style="height:20px;"></div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">@Html.ActionLink("Dashboard", "TeamLeaderStatistics", "Home", null, new { @class = "btn btn-default btn-lg" })</div>
+        <div class="col-md-4"></div>
+    </div>
+    <div style="height:20px;"></div>
+    <div class="row">
+        <div class="col-md-6">@Html.ActionLink("Holiday Requests In Pending from your team", "InPendingTeamLeader", "HolidayViewModels", null, new { @class = "btn btn-default btn-lg" })</div>
+        <div class="col-md-6">@Html.ActionLink("OOH Requests In Pending from your team", "InPendingTeamLeader", "OOHRequestViewModels", null, new { @class = "btn btn-default btn-lg" })</div>
+    </div>
+    <div style="height:20px;"></div>
+    <div class="row">
+        <div class="col-md-6">@Html.ActionLink("Holiday Requests Approved from your team", "ApprovedTeamLeader", "HolidayViewModels", null, new { @class = "btn btn-default btn-lg" })</div>
+        <div class="col-md-6">@Html.ActionLink("OOH Requests Approved from your team", "ApprovedTeamLeader", "OOHRequestViewModels", null, new { @class = "btn btn-default btn-lg" })</div>
+    </div>
+
 
 }
 @if (ViewBag.displayMenu == "Manager")
@@ -81,11 +94,9 @@
         <div class="col-md-4"></div>
     </div>
     <h2>Manager Management</h2>
-    <div class="row">
-        <div class="col-md-4">@Html.ActionLink("Application Support Dashboard", "ApplicationSupport", "Home")</div>
-        <div class="col-md-4">@Html.ActionLink("Software Development", "SoftwareDevelopment", "Home")</div>
-        <div class="col-md-4"></div>
-    </div>
+    <ul>
+        <li>@Html.ActionLink("Dashboard", "ManagerStatistics", "Home")</li>
+    </ul>
 
 }
 

@@ -24,6 +24,11 @@ namespace shanuMVCUserRoles.Controllers
             return View();
         }
 
-      
+        public ActionResult SuccessPontaj()
+        {
+            return View();
+        }
+
+
     }
 }

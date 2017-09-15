@@ -4,16 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Dashboard</h2>
+<h2>Manager Dashboard</h2>
+
 <div style="height:50px;"></div>
-<div  class="row">
-    <div class="col-md-4">A</div>
-    <div class="col-md-4">B</div>
-    <div class="col-md-4">C</div>
+<div class="row">
+    <div class="col-md-3">@Html.ActionLink("ApplicationSupport Dashboard", "ApplicationSupport", "Home")</div>
+    <div class="col-md-3">@Html.ActionLink("BusinessIntelligence Dashboard", "BusinessIntelligence", "Home")</div>
+    <div class="col-md-3">@Html.ActionLink("Middleware Dashboard", "Middleware", "Home")</div>
+    <div class="col-md-3">@Html.ActionLink("OraDBA Dashboard", "OraDBA", "Home")</div>
 </div>
 <div style="height:50px;"></div>
 <div class="row">
-    <div class="col-md-4">A</div>
-    <div class="col-md-4">B</div>
-    <div class="col-md-4">C</div>
+    <div class="col-md-4">@Html.ActionLink("SoftwareDevelopment Dashboard", "SoftwareDevelopment", "Home")</div>
+    <div class="col-md-4">@Html.ActionLink("SQLDBA Dashboard", "SQLDBA", "Home")</div>
+    <div class="col-md-4">@Html.ActionLink("UNIX Dashboard", "UNIX", "Home")</div>
 </div>

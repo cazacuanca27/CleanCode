@@ -372,6 +372,12 @@
     <Content Include="Views\Home\ManagerStatistics.cshtml" />
     <Content Include="Views\Home\ApplicationSupport.cshtml" />
     <Content Include="Views\Home\SoftwareDevelopment.cshtml" />
+    <Content Include="Views\Home\BusinessIntelligence.cshtml" />
+    <Content Include="Views\Home\SQLDBA.cshtml" />
+    <Content Include="Views\Home\OraDBA.cshtml" />
+    <Content Include="Views\Home\Middleware.cshtml" />
+    <Content Include="Views\Home\UNIX.cshtml" />
+    <Content Include="Views\Success\SuccessPontaj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

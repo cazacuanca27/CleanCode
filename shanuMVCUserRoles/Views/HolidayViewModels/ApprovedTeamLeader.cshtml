@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ApprovedTeamLeader</h2>
+<h2 style="padding-left: 280px;">Approved holiday requests from your team</h2>
 
 <div class="table">
 
@@ -34,7 +34,10 @@
             <b>@Html.DisplayNameFor(model => model.DaysOff)</b> :
             @Html.DisplayFor(modelItem => item.DaysOff)
         </p>
-
+        <p>
+            <b>@Html.DisplayNameFor(model => model.HolidayType)</b> :
+            @Html.DisplayFor(modelItem => item.HolidayType)
+        </p>
         <div>
            
             @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })

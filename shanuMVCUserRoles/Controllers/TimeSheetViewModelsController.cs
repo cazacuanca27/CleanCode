@@ -354,7 +354,7 @@ namespace shanuMVCUserRoles.Controllers
 
 
             SmtpServer.Send(mail);
-            return RedirectToAction("SuccessOOH", "Success");
+            return RedirectToAction("SuccessPontaj", "Success");
         }
 
 

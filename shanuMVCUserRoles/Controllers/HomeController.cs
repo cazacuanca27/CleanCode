@@ -155,63 +155,9 @@ namespace shanuMVCUserRoles.Controllers
         }     
 
       
-
-        public ActionResult Applicationsupport()
+        public ActionResult GenericDashboard(string teamName)
         {
-            var applicationSupportEmployees = Enumerable.Empty<ProfileViewModel>().AsQueryable();
-            
-            int holidayRequestsInPending = 0;
-            int holidayRequestsApproved = 0;
-            int holidayRequests = 0;
-
-            int oohRequestsInPending = 0;
-            int oohRequestsApproved = 0;
-            int oohRequests = 0;
-
-            applicationSupportEmployees = from b in db.ProfileViewModel
-                                          where b.Team.Equals("Application Support")
-                                          select b;
-
-
-            holidayRequestsInPending = (from b in db.AspNetHolidays
-                                        join c in db.ProfileViewModel on b.Email equals c.Email
-                                        where (c.Team.Equals("Application Support") && b.StartDate.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(false))
-                                        select b).Count();
-            holidayRequestsApproved = (from b in db.AspNetHolidays
-                                        join c in db.ProfileViewModel on b.Email equals c.Email
-                                        where (c.Team.Equals("Application Support") && b.StartDate.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(true))
-                                        select b).Count();
-            holidayRequests = (from b in db.AspNetHolidays
-                                        join c in db.ProfileViewModel on b.Email equals c.Email
-                                        where (c.Team.Equals("Application Support") && b.StartDate.Month.Equals(DateTime.Now.Month))
-                                        select b).Count();
-            ViewBag.holidayRequestsInPending = holidayRequestsInPending;
-            ViewBag.holidayRequestsApproved = holidayRequestsApproved;
-            ViewBag.holidayRequests = holidayRequests;
-
-            oohRequestsInPending = (from b in db.OOHRequestViewModel
-                                    join c in db.ProfileViewModel on b.Email equals c.Email
-                                        where (c.Team.Equals("Application Support") && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(false))
-                                        select b).Count();
-            oohRequestsApproved = (from b in db.OOHRequestViewModel
-                                   join c in db.ProfileViewModel on b.Email equals c.Email
-                                       where (c.Team.Equals("Application Support") && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(true))
-                                       select b).Count();
-            oohRequests = (from b in db.OOHRequestViewModel
-                                   join c in db.ProfileViewModel on b.Email equals c.Email
-                                   where (c.Team.Equals("Application Support") && b.Day.Month.Equals(DateTime.Now.Month))
-                                   select b).Count();
-            ViewBag.oohRequestsInPending = oohRequestsInPending;
-            ViewBag.oohRequestsApproved = oohRequestsApproved;
-            ViewBag.oohRequests = oohRequests;
-
-
-            return View(applicationSupportEmployees.ToList());
-        }
-
-        public ActionResult SoftwareDevelopment()
-        {
-            var softwareDevelopmentEmployees = Enumerable.Empty<ProfileViewModel>().AsQueryable();
+            var teamEmployees = Enumerable.Empty<ProfileViewModel>().AsQueryable();
 
             int holidayRequestsInPending = 0;
             int holidayRequestsApproved = 0;
@@ -221,22 +167,22 @@ namespace shanuMVCUserRoles.Controllers
             int oohRequestsApproved = 0;
             int oohRequests = 0;
 
-            softwareDevelopmentEmployees = from b in db.ProfileViewModel
-                                          where b.Team.Equals("Software Development")
+            teamEmployees = from b in db.ProfileViewModel
+                                          where b.Team.Equals(teamName)
                                           select b;
 
 
             holidayRequestsInPending = (from b in db.AspNetHolidays
                                         join c in db.ProfileViewModel on b.Email equals c.Email
-                                        where (c.Team.Equals("Software Development") && b.StartDate.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(false))
+                                        where (c.Team.Equals(teamName) && b.StartDate.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(false))
                                         select b).Count();
             holidayRequestsApproved = (from b in db.AspNetHolidays
                                        join c in db.ProfileViewModel on b.Email equals c.Email
-                                       where (c.Team.Equals("Software Development") && b.StartDate.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(true))
+                                       where (c.Team.Equals(teamName) && b.StartDate.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(true))
                                        select b).Count();
             holidayRequests = (from b in db.AspNetHolidays
                                join c in db.ProfileViewModel on b.Email equals c.Email
-                               where (c.Team.Equals("Software Development") && b.StartDate.Month.Equals(DateTime.Now.Month))
+                               where (c.Team.Equals(teamName) && b.StartDate.Month.Equals(DateTime.Now.Month))
                                select b).Count();
             ViewBag.holidayRequestsInPending = holidayRequestsInPending;
             ViewBag.holidayRequestsApproved = holidayRequestsApproved;
@@ -244,22 +190,58 @@ namespace shanuMVCUserRoles.Controllers
 
             oohRequestsInPending = (from b in db.OOHRequestViewModel
                                     join c in db.ProfileViewModel on b.Email equals c.Email
-                                    where (c.Team.Equals("Software Development") && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(false))
+                                    where (c.Team.Equals(teamName) && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(false))
                                     select b).Count();
             oohRequestsApproved = (from b in db.OOHRequestViewModel
                                    join c in db.ProfileViewModel on b.Email equals c.Email
-                                   where (c.Team.Equals("Software Development") && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(true))
+                                   where (c.Team.Equals(teamName) && b.Day.Month.Equals(DateTime.Now.Month) && b.Flag.Equals(true))
                                    select b).Count();
             oohRequests = (from b in db.OOHRequestViewModel
                            join c in db.ProfileViewModel on b.Email equals c.Email
-                           where (c.Team.Equals("Software Development") && b.Day.Month.Equals(DateTime.Now.Month))
+                           where (c.Team.Equals(teamName) && b.Day.Month.Equals(DateTime.Now.Month))
                            select b).Count();
             ViewBag.oohRequestsInPending = oohRequestsInPending;
             ViewBag.oohRequestsApproved = oohRequestsApproved;
             ViewBag.oohRequests = oohRequests;
 
 
-            return View(softwareDevelopmentEmployees.ToList());
+            return View(teamEmployees.ToList());
+        }
+
+
+        public ActionResult Applicationsupport()
+        {
+            return GenericDashboard("Application Support");
+        }
+
+        public ActionResult SoftwareDevelopment()
+        {
+            return GenericDashboard("Software Development");
+        }
+
+        public ActionResult BusinessIntelligence()
+        {
+            return GenericDashboard("Business Intelligence");
+        }
+
+        public ActionResult SQLDBA()
+        {
+            return GenericDashboard("SQLDBA");
+        }
+
+        public ActionResult OraDBA()
+        {
+            return GenericDashboard("OraDBA");
+        }
+
+        public ActionResult Middleware()
+        {
+            return GenericDashboard("Middleware");
+        }
+
+        public ActionResult UNIX()
+        {
+            return GenericDashboard("UNIX");
         }
 
 

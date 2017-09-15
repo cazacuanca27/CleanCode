@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>InPendingTeamLeader</h2>
+<h2 style="padding-left: 280px;">In pending holiday requests from your team</h2>
 
 <div class="table">
 
@@ -33,6 +33,10 @@
             <p>
                 <b>@Html.DisplayNameFor(model => model.DaysOff)</b> :
                 @Html.DisplayFor(modelItem => item.DaysOff)
+            </p>
+            <p>
+                <b>@Html.DisplayNameFor(model => model.HolidayType)</b> :
+                @Html.DisplayFor(modelItem => item.HolidayType)
             </p>
 
             <div>

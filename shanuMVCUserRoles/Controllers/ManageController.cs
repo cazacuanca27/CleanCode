@@ -10,11 +10,14 @@ using shanuMVCUserRoles.Models;
 
 namespace shanuMVCUserRoles.Controllers
 {
+
+
     [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -296,6 +299,9 @@ namespace shanuMVCUserRoles.Controllers
                 OtherLogins = otherLogins
             });
         }
+
+        
+
 
         //
         // POST: /Manage/LinkLogin
