@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using shanuMVCUserRoles.Models;
+using System.Net;
+using System.Data.Entity;
 
 namespace shanuMVCUserRoles.Controllers
 {
@@ -59,6 +61,7 @@ namespace shanuMVCUserRoles.Controllers
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.ProfileUpdated ? "Your profile has been successfully updated."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
@@ -299,9 +302,44 @@ namespace shanuMVCUserRoles.Controllers
                 OtherLogins = otherLogins
             });
         }
+        //******************************************
+        public ActionResult EditProfile()
+        {
+            var user = User.Identity.Name;
+            var userProfile = from b in db.ProfileViewModel
+                              join c in db.Users on b.Email equals c.Email
+                              where c.UserName.Equals(user)
+                              select b;
+            return View(userProfile.ToList());
+        }
 
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ProfileViewModel profileViewModel = db.ProfileViewModel.Find(id);
+            if (profileViewModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(profileViewModel);
+        }
 
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,UserName,FirstName,LastName,Email,Mark,CNP,Location,Team,TeamLeaderEmail")] ProfileViewModel profileViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(profileViewModel).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index", new { Message = ManageMessageId.ProfileUpdated });
+            }
+            return View(profileViewModel);
+        }
+        //******************************************
         //
         // POST: /Manage/LinkLogin
         [HttpPost]
@@ -380,6 +418,7 @@ namespace shanuMVCUserRoles.Controllers
         {
             AddPhoneSuccess,
             ChangePasswordSuccess,
+            ProfileUpdated,
             SetTwoFactorSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,
