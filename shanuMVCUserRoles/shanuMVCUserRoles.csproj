@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -195,77 +196,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709050555206_holi.cs" />
-    <Compile Include="Migrations\201709050555206_holi.Designer.cs">
-      <DependentUpon>201709050555206_holi.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709050610071_Initial.cs" />
-    <Compile Include="Migrations\201709050610071_Initial.Designer.cs">
-      <DependentUpon>201709050610071_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709050617220_Profile.cs" />
-    <Compile Include="Migrations\201709050617220_Profile.Designer.cs">
-      <DependentUpon>201709050617220_Profile.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709050622362_Profile1.cs" />
-    <Compile Include="Migrations\201709050622362_Profile1.Designer.cs">
-      <DependentUpon>201709050622362_Profile1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709050627153_ooh.cs" />
-    <Compile Include="Migrations\201709050627153_ooh.Designer.cs">
-      <DependentUpon>201709050627153_ooh.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709050629566_timesheet.cs" />
-    <Compile Include="Migrations\201709050629566_timesheet.Designer.cs">
-      <DependentUpon>201709050629566_timesheet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709051030490_change.cs" />
-    <Compile Include="Migrations\201709051030490_change.Designer.cs">
-      <DependentUpon>201709051030490_change.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709060728173_loginViewModel.cs" />
-    <Compile Include="Migrations\201709060728173_loginViewModel.Designer.cs">
-      <DependentUpon>201709060728173_loginViewModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709060731018_removeLogin.cs" />
-    <Compile Include="Migrations\201709060731018_removeLogin.Designer.cs">
-      <DependentUpon>201709060731018_removeLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709060846041_alterOOH.cs" />
-    <Compile Include="Migrations\201709060846041_alterOOH.Designer.cs">
-      <DependentUpon>201709060846041_alterOOH.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709061332515_removeRequiredFirstNameHoliday.cs" />
-    <Compile Include="Migrations\201709061332515_removeRequiredFirstNameHoliday.Designer.cs">
-      <DependentUpon>201709061332515_removeRequiredFirstNameHoliday.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709061335175_enableRequiredFirstNameHoliday.cs" />
-    <Compile Include="Migrations\201709061335175_enableRequiredFirstNameHoliday.Designer.cs">
-      <DependentUpon>201709061335175_enableRequiredFirstNameHoliday.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709130842262_holidayType.cs" />
-    <Compile Include="Migrations\201709130842262_holidayType.Designer.cs">
-      <DependentUpon>201709130842262_holidayType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709130852123_holidayTypenorequired.cs" />
-    <Compile Include="Migrations\201709130852123_holidayTypenorequired.Designer.cs">
-      <DependentUpon>201709130852123_holidayTypenorequired.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709130927335_nochanges.cs" />
-    <Compile Include="Migrations\201709130927335_nochanges.Designer.cs">
-      <DependentUpon>201709130927335_nochanges.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709130932055_nochanges1.cs" />
-    <Compile Include="Migrations\201709130932055_nochanges1.Designer.cs">
-      <DependentUpon>201709130932055_nochanges1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709130933531_holt.cs" />
-    <Compile Include="Migrations\201709130933531_holt.Designer.cs">
-      <DependentUpon>201709130933531_holt.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709130935252_sli.cs" />
-    <Compile Include="Migrations\201709130935252_sli.Designer.cs">
-      <DependentUpon>201709130935252_sli.cs</DependentUpon>
+    <Compile Include="Migrations\201907210857462_initial.cs" />
+    <Compile Include="Migrations\201907210857462_initial.Designer.cs">
+      <DependentUpon>201907210857462_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -286,7 +219,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\kim.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -394,59 +326,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709050555206_holi.resx">
-      <DependentUpon>201709050555206_holi.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709050610071_Initial.resx">
-      <DependentUpon>201709050610071_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709050617220_Profile.resx">
-      <DependentUpon>201709050617220_Profile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709050622362_Profile1.resx">
-      <DependentUpon>201709050622362_Profile1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709050627153_ooh.resx">
-      <DependentUpon>201709050627153_ooh.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709050629566_timesheet.resx">
-      <DependentUpon>201709050629566_timesheet.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709051030490_change.resx">
-      <DependentUpon>201709051030490_change.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709060728173_loginViewModel.resx">
-      <DependentUpon>201709060728173_loginViewModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709060731018_removeLogin.resx">
-      <DependentUpon>201709060731018_removeLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709060846041_alterOOH.resx">
-      <DependentUpon>201709060846041_alterOOH.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709061332515_removeRequiredFirstNameHoliday.resx">
-      <DependentUpon>201709061332515_removeRequiredFirstNameHoliday.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709061335175_enableRequiredFirstNameHoliday.resx">
-      <DependentUpon>201709061335175_enableRequiredFirstNameHoliday.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709130842262_holidayType.resx">
-      <DependentUpon>201709130842262_holidayType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709130852123_holidayTypenorequired.resx">
-      <DependentUpon>201709130852123_holidayTypenorequired.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709130927335_nochanges.resx">
-      <DependentUpon>201709130927335_nochanges.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709130932055_nochanges1.resx">
-      <DependentUpon>201709130932055_nochanges1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709130933531_holt.resx">
-      <DependentUpon>201709130933531_holt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709130935252_sli.resx">
-      <DependentUpon>201709130935252_sli.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907210857462_initial.resx">
+      <DependentUpon>201907210857462_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
