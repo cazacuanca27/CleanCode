@@ -1,1 +1,0 @@
-﻿SELECT * FROm AspNetHoliday1;
