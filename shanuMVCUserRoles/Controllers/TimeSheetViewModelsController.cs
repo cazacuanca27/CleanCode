@@ -277,15 +277,14 @@ namespace shanuMVCUserRoles.Controllers
                 {
                     for (var date = hol.StartDate; date <= hol.EndDate; date = date.AddDays(1))
                     {
-                        if (date.DayOfWeek != DayOfWeek.Saturday
-                            && date.DayOfWeek != DayOfWeek.Sunday)
-                            daysOff++;
+                     if (date.DayOfWeek != DayOfWeek.Saturday
+                     && date.DayOfWeek != DayOfWeek.Sunday) daysOff++;
                     }
                 }
                 //compute extra hours worked
                 foreach (var objectooh in Ooh())
                 {
-                    bonusHours += (objectooh.Hours * 2);
+                 bonusHours += (objectooh.Hours * 2);
                 }
 
                 hoursWorked = (businessDaysInMonth - daysOff) * 8 + bonusHours;
@@ -300,12 +299,10 @@ namespace shanuMVCUserRoles.Controllers
                 //compute days off
                 foreach (var hol in Holiday())
                 {
-                    for (var date = hol.StartDate; date <= hol.EndDate; date = date.AddDays(1))
-                    {
-                        if (date.DayOfWeek != DayOfWeek.Saturday
-                            && date.DayOfWeek != DayOfWeek.Sunday)
-                            daysOff++;
-                    }
+                for (var date = hol.StartDate; date <= hol.EndDate; date = date.AddDays(1))
+                {
+                if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday) daysOff++;
+                 }
                 }
                 hoursWorked = (businessDaysInMonth - daysOff) * 8;
                 hoursPaid = businessDaysInMonth * 8;
@@ -320,18 +317,18 @@ namespace shanuMVCUserRoles.Controllers
                 //compute extra hours worked
                 foreach (var objectooh in Ooh())
                 {
-                    bonusHours += (objectooh.Hours * 2);
+                bonusHours += (objectooh.Hours * 2);
                 }
 
-                hoursWorked = businessDaysInMonth * 8 + bonusHours/2;
-                hoursPaid = businessDaysInMonth * 8 + bonusHours;                
+             hoursWorked = businessDaysInMonth * 8 + bonusHours/2;
+             hoursPaid = businessDaysInMonth * 8 + bonusHours;                
             }
 
             //if the employee had no days off and no extra hours worked
             if (holiday&&ooh == false)
             {
-                hoursWorked = workingHoursInMonth;
-                hoursPaid = workingHoursInMonth;
+             hoursWorked = workingHoursInMonth;
+             hoursPaid = workingHoursInMonth;
             }
 
             return "Ore lucratoare in luna: " + workingHoursInMonth + " Ore lucrate in luna: " + hoursWorked
