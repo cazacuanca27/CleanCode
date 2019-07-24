@@ -62,8 +62,16 @@ namespace shanuMVCUserRoles
 
 			}
 
-			// creating Creating Employee role 
-			if (!roleManager.RoleExists("Employee"))
+            if (!roleManager.RoleExists("Team Leader"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Team Leader";
+                roleManager.Create(role);
+
+            }
+
+            // creating Creating Employee role 
+            if (!roleManager.RoleExists("Employee"))
 			{
 				var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
 				role.Name = "Employee";
