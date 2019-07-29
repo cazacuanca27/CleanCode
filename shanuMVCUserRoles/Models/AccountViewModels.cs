@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using shanuMVCUserRoles.Resources;
 
 namespace shanuMVCUserRoles.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = nameof(AccountViewResource.Email), ResourceType = typeof(AccountViewResource))]
         public string Email { get; set; }
     }
 
@@ -17,6 +18,7 @@ namespace shanuMVCUserRoles.Models
 
     public class SendCodeViewModel
     {
+       
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
         public string ReturnUrl { get; set; }

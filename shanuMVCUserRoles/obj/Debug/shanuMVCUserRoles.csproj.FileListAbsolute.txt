@@ -326,3 +326,10 @@ C:\Users\albrinza\source\repos\shanuMVCroles\shanuMVCUserRoles\obj\Debug\shanuMV
 C:\Users\albrinza\source\repos\shanuMVCroles\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.pdb
 C:\Users\albrinza\source\repos\shanuMVCroles\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.Migrations.initial.resources
 C:\Users\albrinza\source\repos\shanuMVCroles\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.csproj.GenerateResource.cache
+C:\Users\anccazacu\OneDrive - ENDAVA\Documents\CleanCode\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.csprojAssemblyReference.cache
+C:\Users\anccazacu\OneDrive - ENDAVA\Documents\CleanCode\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.Migrations.initial.resources
+C:\Users\anccazacu\OneDrive - ENDAVA\Documents\CleanCode\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.Resources.AccountViewResource.resources
+C:\Users\anccazacu\OneDrive - ENDAVA\Documents\CleanCode\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.csproj.GenerateResource.cache
+C:\Users\anccazacu\OneDrive - ENDAVA\Documents\CleanCode\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.csproj.CoreCompileInputs.cache
+C:\Users\anccazacu\OneDrive - ENDAVA\Documents\CleanCode\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.dll
+C:\Users\anccazacu\OneDrive - ENDAVA\Documents\CleanCode\shanuMVCUserRoles\obj\Debug\shanuMVCUserRoles.pdb

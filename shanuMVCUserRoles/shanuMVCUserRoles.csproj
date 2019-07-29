@@ -209,6 +209,21 @@
     <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\TimeSheetViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\AccountControllerResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountControllerResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\AccountViewResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountViewResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\HolidayControllerResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HolidayControllerResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -328,6 +343,19 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201907210857462_initial.resx">
       <DependentUpon>201907210857462_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountControllerResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountControllerResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountViewResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountViewResource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\HolidayControllerResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>HolidayControllerResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

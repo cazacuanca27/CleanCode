@@ -4,6 +4,12 @@ using System.Net;
 using System.Web.Mvc;
 using shanuMVCUserRoles.Models;
 using System;
+using System.Collections.Generic;
+using shanuMVCUserRoles.Resources;
+using System.Security.AccessControl;
+using System.Resources;
+using Microsoft.Ajax.Utilities;
+
 namespace shanuMVCUserRoles.Controllers
 {
     public class HolidayViewModelsController : Controller
@@ -11,136 +17,74 @@ namespace shanuMVCUserRoles.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: HolidayViewModels
+        [HttpGet]
         public ActionResult Index(string sortOrder, string searchString)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "firstname_desc" : "firstname_asc";
-            ViewBag.EmailSortParm = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "email_asc";
-            ViewBag.TeamLeaderSortParm = String.IsNullOrEmpty(sortOrder) ? "tlname_desc" : "tlname_asc";
-            ViewBag.TeamLeaderEmailsSortParm = String.IsNullOrEmpty(sortOrder) ? "tlemail_desc" : "tlemail_asc";
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "NameDesc" : string.Empty;
+            ViewBag.FirstNameSortParm = String.IsNullOrEmpty(sortOrder) ? "FirstNameDesc" : "FirstNameAsc";
+            ViewBag.EmailSortParm = String.IsNullOrEmpty(sortOrder) ? "EmailDesc" : "EmailAsc";
+            ViewBag.TeamLeaderSortParm = String.IsNullOrEmpty(sortOrder) ? "TeamLeadNameDesc" : "TeamLeadNameAsc";
+            ViewBag.TeamLeaderEmailsSortParm = String.IsNullOrEmpty(sortOrder) ? "TeamLeadEmailDesc" : "TeamLeadEmailAsc";
             ViewBag.FlagSortParm = String.IsNullOrEmpty(sortOrder) ? "true" : "false";
-            ViewBag.HolidayTypeSortParm = String.IsNullOrEmpty(sortOrder) ? "hol_asc" : "hol_desc";
-            ViewBag.SickLeaveIndexSortParm = String.IsNullOrEmpty(sortOrder) ? "sick_asc" : "sick_desc";
-            ViewBag.DaysOffSortParm = String.IsNullOrEmpty(sortOrder) ? "daysoff_desc" : "daysoff_asc";
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewBag.EndDateSortParm = sortOrder == "EndDate" ? "enddate_desc" : "EndDate";
+            ViewBag.HolidayTypeSortParm = String.IsNullOrEmpty(sortOrder) ? "HolidayAsc" : "HolidayDesc";
+            ViewBag.SickLeaveIndexSortParm = String.IsNullOrEmpty(sortOrder) ? "SickLeaveAsc" : "SickLeaveDesc";
+            ViewBag.DaysOffSortParm = String.IsNullOrEmpty(sortOrder) ? "DaysOffDesc" : "DaysOffAsc";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "DateDesc" : "Date";
+            ViewBag.EndDateSortParm = sortOrder == "EndDate" ? "EndDateDesc" : "EndDate";
 
             
             var holidayRequests = from s in db.AspNetHolidays
-                           select s;
+                                  select s;
 
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 holidayRequests = holidayRequests.Where(s => s.LastName.Contains(searchString)
                                        || s.FirstName.Contains(searchString));
             }
 
-            
-            switch (sortOrder)
+            var dict = new Dictionary<string, IQueryable<HolidayViewModel>>
             {
-                //order by last name
-                case "name_desc":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.LastName);
-                    break;
+                {"NameDesc", holidayRequests.OrderByDescending(s => s.LastName)},
+                {"FirstNameDesc", holidayRequests.OrderByDescending(s => s.FirstName)},
+                {"FirstNameAsc", holidayRequests.OrderBy(s => s.FirstName)},
+                {"EmailDesc", holidayRequests.OrderByDescending(s => s.Email)},
+                {"EmailAsc", holidayRequests.OrderByDescending(s => s.Email)},
+                {"TeamLeadNameDesc", holidayRequests.OrderByDescending(s => s.TeamLeaderName)},
+                {"TeamLeadNameAsc", holidayRequests.OrderBy(s => s.TeamLeaderName)},
+                {"TeamLeadEmailDesc", holidayRequests.OrderByDescending(s => s.TLEmail)},
+                {"TeamLeadEmailAsc", holidayRequests.OrderBy(s => s.TLEmail)},
+                {"HolidayDesc", holidayRequests.OrderByDescending(s => s.HolidayType)},
+                {"HolidayAsc",  holidayRequests.OrderBy(s => s.HolidayType)},
+                {"SickLeaveDesc",  holidayRequests.OrderByDescending(s => s.HolidayType)},
+                {"SickLeaveAsc",  holidayRequests.OrderBy(s => s.HolidayType)},
+                {"true", holidayRequests.OrderByDescending(s => s.Flag)},
+                {"false",holidayRequests.OrderBy(s => s.Flag)},
+                {"Date", holidayRequests.OrderBy(s => s.StartDate)},
+                {"DateDesc", holidayRequests.OrderByDescending(s => s.StartDate)},
+                {"EndDate", holidayRequests.OrderBy(s => s.StartDate)},
+                {"EndDateDesc", holidayRequests.OrderByDescending(s => s.StartDate)},
+                {"DaysOffAsc", holidayRequests.OrderBy(s => s.DaysOff)},
+                {"DaysOffDesc", holidayRequests.OrderByDescending(s => s.DaysOff)}
+            };
 
-                    //order by first name
-                case "firstname_desc":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.FirstName);
-                    break;
-                case "firstname_asc":
-                    holidayRequests = holidayRequests.OrderBy(s => s.FirstName);
-                    break;
-
-                //order by email
-                case "email_desc":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.Email);
-                    break;
-                case "email_asc":
-                    holidayRequests = holidayRequests.OrderBy(s => s.Email);
-                    break;
-
-                //order by tl name
-                case "tlname_desc":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.TeamLeaderName);
-                    break;
-                case "tlname_asc":
-                    holidayRequests = holidayRequests.OrderBy(s => s.TeamLeaderName);
-                    break;
-
-                //order by tlemail
-                case "tlemail_desc":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.TLEmail);
-                    break;
-                case "tlemail_asc":
-                    holidayRequests = holidayRequests.OrderBy(s => s.TLEmail);
-                    break;
-
-                //order by holiday
-                case "hol_desc":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.HolidayType);
-                    break;
-                case "hol_asc":
-                    holidayRequests = holidayRequests.OrderBy(s => s.HolidayType);
-                    break;
-
-                //order by sick leave index
-                case "sick_desc":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.HolidayType);
-                    break;
-                case "sick_asc":
-                    holidayRequests = holidayRequests.OrderBy(s => s.HolidayType);
-                    break;
-
-                //order by flag
-                case "true":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.Flag);
-                    break;
-                case "false":
-                    holidayRequests = holidayRequests.OrderBy(s => s.Flag);
-                    break;
-
-                //order by start date
-                case "Date":
-                    holidayRequests = holidayRequests.OrderBy(s => s.StartDate);
-                    break;
-                case "date_desc":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.StartDate);
-                    break;
-
-                //order by end date
-                case "EndDate":
-                    holidayRequests = holidayRequests.OrderBy(s => s.StartDate);
-                    break;
-                case "enddate_desc":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.StartDate);
-                    break;
-
-                //order by end date
-                case "daysoff_asc":
-                    holidayRequests = holidayRequests.OrderBy(s => s.DaysOff);
-                    break;
-                case "daysoff_desc":
-                    holidayRequests = holidayRequests.OrderByDescending(s => s.DaysOff);
-                    break;
-
-                default:
-                    holidayRequests = holidayRequests.OrderBy(s => s.LastName);
-                    break;
-            }
-
+            holidayRequests = sortOrder == null
+                ?  holidayRequests.OrderBy(s => s.LastName)
+                :  dict[sortOrder];
+            
             return View(holidayRequests.ToList());
         }
 
         // GET: HolidayViewModels/Details/5
+        [HttpGet]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HolidayViewModel holidayViewModel = db.AspNetHolidays.Find(id);
+            var holidayViewModel = db.AspNetHolidays.Find(id);
             if (holidayViewModel == null)
             {
                 return HttpNotFound();
@@ -149,33 +93,28 @@ namespace shanuMVCUserRoles.Controllers
         }
 
         // GET: HolidayViewModels/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: HolidayViewModels/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Email,TeamLeaderName,StartDate,EndDate,DaysOff,TLEmail,HolidayType,SickLeaveIndex,Flag")] HolidayViewModel holidayViewModel)
+        public ActionResult Create([Bind(Include = nameof(HolidayControllerResource.Info))] HolidayViewModel holidayViewModel)
         {
-
-
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                
-                db.AspNetHolidays.Add(holidayViewModel);
-                db.SaveChanges();               
-                return RedirectToAction("SuccessHoliday", "Success");
+                return View(holidayViewModel);
             }
 
-            return View(holidayViewModel);
+            db.AspNetHolidays.Add(holidayViewModel);
+            db.SaveChanges();   
+            
+            return RedirectToAction(HolidayControllerResource.SuccessHoliday, HolidayControllerResource.Success);
         }
 
 
-        //employee inpending and approoved
         public ActionResult InPending()
         {
             var list = from b in db.AspNetHolidays
@@ -184,7 +123,6 @@ namespace shanuMVCUserRoles.Controllers
                        select b;
             return View(list.ToList());
         }      
-
 
         public ActionResult Approved()
         {
@@ -195,7 +133,6 @@ namespace shanuMVCUserRoles.Controllers
             return View(list.ToList());
         }
 
-        //teamleader inpending and aproved
         public ActionResult InPendingTeamLeader()
         {
             var list = from b in db.AspNetHolidays
@@ -214,15 +151,17 @@ namespace shanuMVCUserRoles.Controllers
             return View(list.ToList());
         }
 
-
         // GET: HolidayViewModels/Edit/5
+        [HttpGet]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HolidayViewModel holidayViewModel = db.AspNetHolidays.Find(id);
+
+            var holidayViewModel = db.AspNetHolidays.Find(id);
+
             if (holidayViewModel == null)
             {
                 return HttpNotFound();
@@ -231,33 +170,29 @@ namespace shanuMVCUserRoles.Controllers
         }
 
         // POST: HolidayViewModels/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Email,TeamLeaderName,StartDate,EndDate,DaysOff,TLEmail,HolidayType,SickLeaveIndex,Flag")] HolidayViewModel holidayViewModel)
+        public ActionResult Edit([Bind(Include = nameof(HolidayControllerResource.Info))] HolidayViewModel holidayViewModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                
-                db.Entry(holidayViewModel).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-
+                return View(holidayViewModel);
             }
-            return View(holidayViewModel);
+
+            db.Entry(holidayViewModel).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction(HolidayControllerResource.Index);
         }
 
-        
-
         // GET: HolidayViewModels/Delete/5
+        [HttpGet]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HolidayViewModel holidayViewModel = db.AspNetHolidays.Find(id);
+            var holidayViewModel = db.AspNetHolidays.Find(id);
             if (holidayViewModel == null)
             {
                 return HttpNotFound();
@@ -270,10 +205,16 @@ namespace shanuMVCUserRoles.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            HolidayViewModel holidayViewModel = db.AspNetHolidays.Find(id);
-            db.AspNetHolidays.Remove(holidayViewModel);
+            var holidayViewModel = db.AspNetHolidays.Find(id);
+
+            if (holidayViewModel != null)
+            {
+                db.AspNetHolidays.Remove(holidayViewModel);
+            }
+
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return RedirectToAction(HolidayControllerResource.Index);
         }
 
         protected override void Dispose(bool disposing)

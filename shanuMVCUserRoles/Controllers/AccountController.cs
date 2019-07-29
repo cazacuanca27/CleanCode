@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -9,15 +10,16 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using shanuMVCUserRoles.Models;
+using shanuMVCUserRoles.Resources;
 
 namespace shanuMVCUserRoles.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-		ApplicationDbContext context;
+        private ApplicationSignInManager signInManager;
+        private ApplicationUserManager userManager;
+        readonly ApplicationDbContext context;
 		public AccountController()
         {
 			context = new ApplicationDbContext();
@@ -33,11 +35,11 @@ namespace shanuMVCUserRoles.Controllers
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                return signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
             private set 
             { 
-                _signInManager = value; 
+                signInManager = value; 
             }
         }
 
@@ -45,11 +47,11 @@ namespace shanuMVCUserRoles.Controllers
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
             private set
             {
-                _userManager = value;
+                userManager = value;
             }
         }
 
@@ -74,20 +76,20 @@ namespace shanuMVCUserRoles.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return View(AccountControllerResource.Lockout);
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction(AccountControllerResource.SendCode, new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, AccountControllerResource.InvalidLoginAttempt);
                     return View(model);
             }
         }
@@ -100,8 +102,9 @@ namespace shanuMVCUserRoles.Controllers
             // Require that the user has already logged in via username/password or external login
             if (!await SignInManager.HasBeenVerifiedAsync())
             {
-                return View("Error");
+                return View(AccountControllerResource.Error);
             }
+
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
@@ -117,20 +120,18 @@ namespace shanuMVCUserRoles.Controllers
                 return View(model);
             }
 
-            // The following code protects for brute force attacks against the two factor codes. 
-            // If a user enters incorrect codes for a specified amount of time then the user account 
-            // will be locked out for a specified amount of time. 
-            // You can configure the account lockout settings in IdentityConfig
             var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(model.ReturnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return View(AccountControllerResource.Lockout);
                 case SignInStatus.Failure:
+                    return View(AccountControllerResource.Failure);
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    ModelState.AddModelError(string.Empty, AccountControllerResource.InvalidCode);
                     return View(model);
             }
         }
@@ -140,8 +141,8 @@ namespace shanuMVCUserRoles.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-			ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
-											.ToList(), "Name", "Name");
+			ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains(AccountControllerResource.Admin))
+											.ToList(),AccountControllerResource.Name, AccountControllerResource.Name);
 			return View();
         }
 
@@ -156,27 +157,19 @@ namespace shanuMVCUserRoles.Controllers
             {
 				var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
 				var result = await UserManager.CreateAsync(user, model.Password);
+
 				if (result.Succeeded)
 				{
 					await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-					// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-					// Send an email with this link
-					// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-					// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-					// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-					//Assign Role to user Here   
-                   
-					await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
-					//Ends Here 
-					return RedirectToAction("Create", "ProfileViewModels");
+                    await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
+                    return RedirectToAction(AccountControllerResource.Create, AccountControllerResource.ProfileViewModels);
 				}
-				ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
-										  .ToList(), "Name", "Name");
+
+				ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains(AccountControllerResource.Name))
+										  .ToList(), AccountControllerResource.Name,AccountControllerResource.Name);
 				AddErrors(result);
 			}
 
-			// If we got this far, something failed, redisplay form
 			return View(model);
 		}
 
@@ -187,10 +180,12 @@ namespace shanuMVCUserRoles.Controllers
         {
             if (userId == null || code == null)
             {
-                return View("Error");
+                return View(AccountControllerResource.Error);
             }
+
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+
+            return View(result.Succeeded ? AccountControllerResource.ConfirmEmail: AccountControllerResource.Error);
         }
 
         //
@@ -211,21 +206,12 @@ namespace shanuMVCUserRoles.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
+
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    return View(AccountControllerResource.ForgotPasswConfirmation);
                 }
-
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -242,7 +228,7 @@ namespace shanuMVCUserRoles.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            return code == null ? View(AccountControllerResource.Error) : View();
         }
 
         //
@@ -256,18 +242,23 @@ namespace shanuMVCUserRoles.Controllers
             {
                 return View(model);
             }
+
             var user = await UserManager.FindByNameAsync(model.Email);
+
             if (user == null)
             {
-                // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction(AccountControllerResource.ResetPasswConfirmation, AccountControllerResource.Account);
             }
+
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction(AccountControllerResource.ResetPasswConfirmation, AccountControllerResource.Account);
             }
+
             AddErrors(result);
+
             return View();
         }
 
@@ -286,8 +277,7 @@ namespace shanuMVCUserRoles.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+            return new ChallengeResult(provider, Url.Action(AccountControllerResource.ExternalLoginCallback, AccountControllerResource.Account, new { ReturnUrl = returnUrl }));
         }
 
         //
@@ -296,12 +286,15 @@ namespace shanuMVCUserRoles.Controllers
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
+
             if (userId == null)
             {
-                return View("Error");
+                return View(AccountControllerResource.Error);
             }
+
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
+
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
@@ -317,12 +310,12 @@ namespace shanuMVCUserRoles.Controllers
                 return View();
             }
 
-            // Generate the token and send it
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
-                return View("Error");
+                return View(AccountControllerResource.Error);
             }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+
+            return RedirectToAction(AccountControllerResource.VerifyCode, new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
         //
@@ -331,27 +324,29 @@ namespace shanuMVCUserRoles.Controllers
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+
             if (loginInfo == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction(AccountControllerResource.Login);
             }
 
-            // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return View(AccountControllerResource.Lockout);
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+                    return RedirectToAction(AccountControllerResource.SendCode, new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
+                    return View(AccountControllerResource.Failure);
                 default:
-                    // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+
+                    return View(AccountControllerResource.ExternalLoginConfirmation, new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
 
@@ -364,19 +359,19 @@ namespace shanuMVCUserRoles.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Manage");
+                return RedirectToAction(AccountControllerResource.Index, AccountControllerResource.Manage);
             }
 
             if (ModelState.IsValid)
             {
-                // Get the information about the user from the external login provider
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    return View("ExternalLoginFailure");
+                    return View(AccountControllerResource.ExternalLoginFailure);
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
+
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
@@ -386,6 +381,7 @@ namespace shanuMVCUserRoles.Controllers
                         return RedirectToLocal(returnUrl);
                     }
                 }
+
                 AddErrors(result);
             }
 
@@ -400,7 +396,7 @@ namespace shanuMVCUserRoles.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(AccountControllerResource.Index, AccountControllerResource.Home);
         }
 
         //
@@ -415,16 +411,16 @@ namespace shanuMVCUserRoles.Controllers
         {
             if (disposing)
             {
-                if (_userManager != null)
+                if (userManager != null)
                 {
-                    _userManager.Dispose();
-                    _userManager = null;
+                    userManager.Dispose();
+                    userManager = null;
                 }
 
-                if (_signInManager != null)
+                if (signInManager != null)
                 {
-                    _signInManager.Dispose();
-                    _signInManager = null;
+                    signInManager.Dispose();
+                    signInManager = null;
                 }
             }
 
